@@ -6,7 +6,7 @@
 /*   By: yel-moum <yel-moum@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 22:55:48 by sergio            #+#    #+#             */
-/*   Updated: 2022/07/01 18:40:08 by yel-moum         ###   ########.fr       */
+/*   Updated: 2022/07/22 15:08:26 by yel-moum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int ft_loop_cmd(t_vars *vars)
 {
     ft_lstclear(&vars->tokens);
     ft_cmd_lstclear(&vars->cmds);
-   	vars->cmdline = ft_free(vars->cmdline);
+   	vars->cmdline = ft_free(vars->cmdline); 
     vars->cmdline = readline(PROMPT);
     if (!vars->cmdline)
 		return (0);
@@ -54,16 +54,18 @@ int	main(int argc, char *argv[], char *envp[])
 	vars.cmdline = ft_strdup("");
     while (ft_loop_cmd(&vars))
     {
-        printf("%s\n", vars.cmdline); 
-        printf("%s\n", *vars.envp); 
-        printf("%s\n", vars.tokens->next->content);
-        printf("%s\n", vars.tokens->next->next->content);
-        printf("%s\n", vars.tokens->next->next->next->content);
-        printf("%s\n", vars.tokens->next->next->next->next->content);
-        printf("%s\n", *vars.cmds->cmd);
-        printf("%s\n", *vars.cmds->next->cmd);
-        printf("%s\n", *vars.cmds->next->next->cmd);
-        printf("%d\n", *vars.cmds->subsh_lvl);
+        // printf("%s\n", *vars.envp); 
+        // printf("%s\n", vars.cmdline); 
+        // printf("%s\n", *vars.cmds->cmd);
+        // printf("%s\n", *vars.cmds->next->cmd);
+        // printf("%s\n", *vars.cmds->next->next->cmd);
+        // printf("%s\n", vars.tokens->content);
+        // printf("%s\n", vars.tokens->next->content);
+        // printf("%s\n", vars.tokens->next->next->content);
+        // printf("%s\n", vars.tokens->next->next->next->content);
+        // printf("%s\n", vars.tokens->next->next->next->next->content);
+        // printf("%d\n", *vars.cmds->subsh_lvl);
+        ;
     }
     printf("%s\n", vars.cmdline);
     ft_free_program(&vars);

@@ -24,7 +24,10 @@ char	*ft_strjoin1(char *s1, char *s2)
 	i = 0;
 	while (s2[i])
 		ptr[j++] = s2[i++];
-	ptr[j] = '\0';
+	if (ptr[j - 1] == ' ')
+		ptr[j - 1] = '\0';
+	else
+		ptr[j] = '\0';
 	return (ptr);
 }
 
@@ -37,7 +40,7 @@ int	main(int ac, char **av)
 		path = readline("minishell-> ");
 		if (path[0] == '~')
 		{
-			char *usr = "/Users/tnaceur";
+			char *usr = "/Users/$USER";
 			path = ft_strjoin1(usr, path + 1);
 		}
 		if (chdir(path) == -1)
@@ -45,8 +48,6 @@ int	main(int ac, char **av)
 			perror(NULL);
 			exit(1);
 		}
-		if (getcwd(cwd, sizeof(cwd)) != NULL)
-			printf("%s\n", cwd);
 	}
 
 }

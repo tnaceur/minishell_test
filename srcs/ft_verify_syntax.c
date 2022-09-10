@@ -6,7 +6,7 @@
 /*   By: yel-moum <yel-moum@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 01:37:56 by sergio            #+#    #+#             */
-/*   Updated: 2022/07/01 13:24:11 by yel-moum         ###   ########.fr       */
+/*   Updated: 2022/07/24 13:05:13 by yel-moum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	ft_verify_quotes(t_vars *vars)
 	while (t_tokens)
 	{
 		if (t_tokens->type == S_QUOTE)
-			syntax.s_quotes ++;
+			syntax.s_quotes++;
 		t_tokens = t_tokens->next;
 	}
 	if (syntax.s_quotes % 2 != 0)

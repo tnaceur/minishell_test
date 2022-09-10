@@ -6,7 +6,7 @@
 /*   By: yel-moum <yel-moum@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 22:51:39 by sergio            #+#    #+#             */
-/*   Updated: 2022/07/01 13:23:46 by yel-moum         ###   ########.fr       */
+/*   Updated: 2022/07/01 18:58:28 by yel-moum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include "../libft/libft.h"
 # include "../libft/libft.h"
 
 # define PROMPT "minishell$ "
@@ -48,7 +49,7 @@ typedef struct s_list
 typedef struct s_cmd 
 {
 	char				**cmd;
-	int					type;	
+	int					type;
 	int					*subsh_lvl;
 	t_list				*redirect;
 	struct s_cmd		*next;
@@ -79,7 +80,7 @@ typedef struct s_glob
 t_glob	g_glob;
 
 void	signals_handler(int sign);
-int	    ft_init_vars(t_vars *vars, char *envp[]);
+int		ft_init_vars(t_vars *vars, char *envp[]);
 void	*ft_free(void *ptr);
 void	ft_lstclear(t_list **lst);
 int		ft_lstsize(t_list *lst);
@@ -95,5 +96,6 @@ char	*ft_getenv(char *var, char **envp);
 int		ft_tokenization(t_vars *vars);
 int		ft_parse_cmds(t_vars *vars);
 int		ft_verify_syntax(t_vars *vars);
+void	exec_pipe(char **cmd, char **env);
 
 #endif
