@@ -54,6 +54,18 @@ int	main(int argc, char *argv[], char *envp[])
 	vars.cmdline = ft_strdup("");
     while (ft_loop_cmd(&vars))
     {
+		while (vars.cmds)
+		{
+			int	i = 0;
+			while (vars.cmds->cmd[i])
+				printf("cmd : %s\n", vars.cmds->cmd[i++]);
+			vars.cmds = vars.cmds->next;
+		}
+		while (vars.tokens)
+		{
+			printf("token : %s  type : %d\n", vars.tokens->content, vars.tokens->type);
+			vars.tokens = vars.tokens->next;
+		}
         // printf("%s\n", *vars.envp); 
         // printf("%s\n", vars.cmdline); 
         // printf("%s\n", *vars.cmds->cmd);
