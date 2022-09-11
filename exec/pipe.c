@@ -1,33 +1,5 @@
 # include "../includes/minishell.h"
 
-// int ft_strlen(char *s)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (s[i])
-// 		i++;
-// 	return (i);
-// }
-
-// char	*ft_strjoin(char *s1, char *s2)
-// {
-// 	char	*str;
-// 	int		i;
-// 	int		j;
-
-// 	i = 0;
-// 	j = 0;
-// 	str = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-// 	while (s1[i])
-// 		str[j++] = s1[i++];
-// 	i = 0;
-// 	while (s2[i])
-// 		str[j++] = s2[i++];
-// 	str[j] = '\0';
-// 	return (str);
-// }
-
 char	*get_path(char **path, char *cmd)
 {
 	int	i;
@@ -44,44 +16,58 @@ char	*get_path(char **path, char *cmd)
 	return (path[i]);
 }
 
-void ft_execute(char *cmd, char **env)
+void ft_execute(t_vars *vars)
 {
-	int	i = 0;
-	char **path, *cmd_path;
-	while (env[i])
+	char	*cmd_path;
+	t_cmd	*a;
+	a = vars->cmds;
+	while (a)
 	{
-		if (env[i][0] == 'P')
+		int id = fork();
+		if (id == 0)
 		{
-			if (env[i][1] == 'A')
-				break;
+			if (access(a->cmd[0], F_OK) == 0)
+			{
+				if (execve(a->cmd[0], a->cmd, NULL))
+				{
+				 	perror("execve");
+					exit(1);
+				}
+			}
+			cmd_path = get_path(vars->path_cmd, a->cmd[0]);
+			if (execve(cmd_path, a->cmd, NULL))
+			{
+				perror("execve");
+				exit(1);
+			}
 		}
-		i++;
+		wait(NULL);
+		a = a ->next;
 	}
-	path = ft_split(env[i] + 5, ':');
-	cmd_path = get_path(path, cmd);
 }
 
-void	exec_pipe(char **cmd, char **env)
+void	exec_cmd(t_vars *vars)
 {
-    char	*input;
+	ft_execute(vars);
+}
+
+void	exec_pipe(t_vars *vars)
+{
 	int		i;
 	int		count;
+	t_list	*tmp;
 
-	(void)cmd;
-    input = readline("$pipex ");
-	if (input[0] == '|')
-	{
-		printf("zsh: parse error near `|' \n");
-		exit(0);
-	}
 	i = 0;
 	count = 0;
-	while (input[i])
+	tmp = vars->tokens;
+	while (tmp)
 	{
-		if (input[i] == '|')
+		if (tmp->content[0] == '|')
 			count++ ;
-		i++ ;
+		tmp = tmp->next;
 	}
-	if (count == 0)
-		ft_execute(input, env);
+	// while (count--)
+	// {
+		ft_execute(vars);
+	// }
 }

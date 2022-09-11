@@ -14,11 +14,24 @@
 
 int	ft_init_vars(t_vars *vars, char *envp[])
 {
+	int i;
+
+	i = 0;
 	vars->cmdline = NULL;
 	vars->last_cmdline = NULL;
 	vars->tokens = NULL;
 	vars->cmds = NULL;
 	vars->envp = ft_arrdup(envp);
+	while (vars->envp[i])
+	{
+		if (vars->envp[i][0] == 'P')
+		{
+			if (vars->envp[i][1] == 'A')
+				break;
+		}
+		i++;
+	}
+	vars->path_cmd = ft_split(vars->envp[i] + 5, ':');
     if (!vars->envp)
 		return (0);
 	return (1);

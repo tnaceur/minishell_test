@@ -12,23 +12,22 @@
 
 #include"libft.h"
 
-static char	*ft_strcat(char *s1, char *s2)
-{
-	int	i;
-	int	j;
+// static char	*ft_strcat(char *s1, char *s2)
+// {
+// 	int	i;
+// 	int	j;
 
-	i = ft_strlen(s1);
-	j = 0;
-	while (s2[j])
-	{
-		s1[i + j] = s2[j];
-		j++ ;
-	}
-	s1[i + j] = '\0';
-	return (s1);
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
+// 	i = ft_strlen(s1);
+// 	j = 0;
+// 	while (s2[j])
+// 	{
+// 		s1[i + j] = s2[j];
+// 		j++ ;
+// 	}
+// 	s1[i + j] = '\0';
+// 	return (s1);
+// }
+char	*ft_strjoin(char *s1, char *s2)
 {
 	size_t	i;
 	size_t	j;
@@ -38,12 +37,19 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (0);
 	i = ft_strlen(s1);
 	j = ft_strlen(s2);
-	ptr = (char *)malloc(sizeof(char) * (i + j + 1));
-	if (!ptr)
-		return (0);
-	ptr[0] = '\0';
-	ptr = ft_strcat(ptr, (char *)s1);
-	ptr = ft_strcat(ptr, (char *)s2);
+	ptr = malloc(i + j + 1);
+	i = 0;
+	while (s1[i])
+	{
+		ptr[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (s2[j])
+		ptr[i++] = s2[j++];
+	ptr[i] = '\0';
+	free(s1);
+	s1 = NULL;
 	return (ptr);
 }
 /*int main(void)

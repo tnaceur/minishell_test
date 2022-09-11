@@ -60,6 +60,7 @@ typedef struct s_vars
 	char				*cmdline;
 	char				*last_cmdline;
 	char				**envp;
+	char				**path_cmd;
 	t_list				*tokens;
 	t_cmd				*cmds;
 	struct sigaction	sa;
@@ -96,6 +97,8 @@ char	*ft_getenv(char *var, char **envp);
 int		ft_tokenization(t_vars *vars);
 int		ft_parse_cmds(t_vars *vars);
 int		ft_verify_syntax(t_vars *vars);
-void	exec_pipe(char **cmd, char **env);
+void	exec_pipe(t_vars *vars);
+void	exec(t_vars *vars);
+void	exec_cmd(t_vars *vars);
 
 #endif

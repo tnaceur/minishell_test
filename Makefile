@@ -14,6 +14,7 @@ SRCS			=	srcs/ft_initvars.c\
 					srcs/ft_tokenization.c\
 					srcs/ft_verify_syntax.c\
 					exec/pipe.c\
+					exec/exec.c\
 					
 
 OBJS			=	$(SRCS:.c=.o)\
