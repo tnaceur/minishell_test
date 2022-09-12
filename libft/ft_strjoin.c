@@ -12,21 +12,6 @@
 
 #include"libft.h"
 
-// static char	*ft_strcat(char *s1, char *s2)
-// {
-// 	int	i;
-// 	int	j;
-
-// 	i = ft_strlen(s1);
-// 	j = 0;
-// 	while (s2[j])
-// 	{
-// 		s1[i + j] = s2[j];
-// 		j++ ;
-// 	}
-// 	s1[i + j] = '\0';
-// 	return (s1);
-// }
 char	*ft_strjoin(char *s1, char *s2)
 {
 	size_t	i;
@@ -52,9 +37,3 @@ char	*ft_strjoin(char *s1, char *s2)
 	s1 = NULL;
 	return (ptr);
 }
-/*int main(void)
-{
-	char s1[] = "lorem ipsumdolor";
-	char s2[] = " sit amet";
-	printf("%s\n", ft_strjoin(s1, s2));
-}*/

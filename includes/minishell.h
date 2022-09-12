@@ -100,5 +100,6 @@ int		ft_verify_syntax(t_vars *vars);
 void	exec_pipe(t_vars *vars);
 void	exec(t_vars *vars);
 void	exec_cmd(t_vars *vars);
+int		builtin_exit(char **cmd);
 
 #endif

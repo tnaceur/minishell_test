@@ -30,14 +30,14 @@ void ft_execute(t_vars *vars)
 			{
 				if (execve(a->cmd[0], a->cmd, NULL))
 				{
-				 	perror("execve");
+				 	perror("minishell");
 					exit(1);
 				}
 			}
 			cmd_path = get_path(vars->path_cmd, a->cmd[0]);
 			if (execve(cmd_path, a->cmd, NULL))
 			{
-				perror("execve");
+				perror("minishell");
 				exit(1);
 			}
 		}

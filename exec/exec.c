@@ -9,6 +9,11 @@ void	exec(t_vars *vars)
 	herdoc = 0;
 	pipe = 0;
 	tmp = vars->tokens;
+	if (!ft_strcmp(vars->cmds->cmd[0], "exit"))
+	{
+		builtin_exit(vars->cmds->cmd);
+		return ;
+	}
 	while (tmp)
 	{
 		if (tmp->content[0] == '|')

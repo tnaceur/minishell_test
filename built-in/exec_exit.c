@@ -35,10 +35,10 @@ static int	is_numeric(const char *s)
 	return (is_numeric);
 }
 
-static double   ft_atoi_exit(const char *str)
+static long double   ft_atoi_exit(const char *str)
 {
 	int		sign;
-	double	nbr;
+	long double	nbr;
 
 	sign = 1;
 	nbr = 0;
@@ -60,7 +60,7 @@ static double   ft_atoi_exit(const char *str)
 
 int builtin_exit(char **cmd)
 {
-	double		exit_status;
+	long double		exit_status;
 	int			size;
 
     ft_putendl_fd("exit", STDOUT_FILENO);
@@ -75,7 +75,7 @@ int builtin_exit(char **cmd)
 		ft_putendl_fd(": numeric argument required", STDERR_FILENO);
 		exit(255);
 	}
-    if (size = 2)
+    if (size == 3)
     {
         ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
         return (EXIT_FAILURE);
