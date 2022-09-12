@@ -53,11 +53,9 @@ void	exec_cmd(t_vars *vars)
 
 void	exec_pipe(t_vars *vars)
 {
-	int		i;
 	int		count;
 	t_list	*tmp;
 
-	i = 0;
 	count = 0;
 	tmp = vars->tokens;
 	while (tmp)
