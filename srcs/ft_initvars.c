@@ -26,7 +26,7 @@ int	ft_init_vars(t_vars *vars, char *envp[])
 	{
 		if (vars->envp[i][0] == 'P')
 		{
-			if (vars->envp[i][1] == 'A')
+			if (vars->envp[i][1] == 'A' && vars->envp[i][2] == 'T')
 				break;
 		}
 		i++;
