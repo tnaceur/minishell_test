@@ -12,6 +12,21 @@ void	exec(t_vars *vars)
 		builtin_exit(vars->cmds->cmd);
 		return ;
 	}
+	else if (!ft_strcmp(vars->cmds->cmd[0], "env"))
+	{
+		builtin_env(vars->envp);
+		return ;
+	}
+	else if (!ft_strcmp(vars->cmds->cmd[0], "echo"))
+	{
+		builtin_echo(vars->cmds->cmd);
+		return ;
+	}
+	else if (!ft_strcmp(vars->cmds->cmd[0], "cd"))
+	{
+		exec_cd(vars->cmds->cmd + 1);
+		return ;
+	}
 	while (tmp)
 	{
 		if (tmp->content[0] == '|')

@@ -6,7 +6,7 @@
 /*   By: yel-moum <yel-moum@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 22:51:39 by sergio            #+#    #+#             */
-/*   Updated: 2022/07/01 18:58:28 by yel-moum         ###   ########.fr       */
+/*   Updated: 2022/09/12 23:44:52 by yel-moum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,8 @@ void	exec_pipe(t_vars *vars);
 void	exec(t_vars *vars);
 void	exec_cmd(t_vars *vars);
 int		builtin_exit(char **cmd);
+int		builtin_env(char **envp);
+int		builtin_echo(char **cmd);
+void	exec_cd(char **path);
 
-#endif
+# endif
