@@ -22,14 +22,14 @@ void ft_execute(t_cmd *a, char **path)
 
 	if (access(a->cmd[0], F_OK) == 0)
 	{
-		if (execve(a->cmd[0], a->cmd, NULL))
+		if (execve(a->cmd[0], a->cmd, NULL) == -1)
 		{
 			perror("minishell");
 			exit(1);
 		}
 	}
 	cmd_path = get_path(path, a->cmd[0]);
-	if (execve(cmd_path, a->cmd, NULL))
+	if (execve(cmd_path, a->cmd, NULL) == -1)
 	{
 		perror("minishell");
 		exit(1);
@@ -65,7 +65,7 @@ int	lst_size(t_cmd *cmd)
 void	exec_pipe(t_vars *vars)
 {
 	int		count;
-	int		*fd[2];
+	int		(*fd)[2];
 	int		i;
 	int		start;
 	int		end;
@@ -73,7 +73,7 @@ void	exec_pipe(t_vars *vars)
 	start = 0;
 	end = 0;
 	count = lst_size(vars->cmds) - 1;
-	*fd = malloc((count) * sizeof(int*)); 
+	fd = malloc((count) * sizeof(int*)); 
 	i = 0;
 	t_cmd *a = vars->cmds;
 	i = 0;
@@ -110,7 +110,12 @@ void	exec_pipe(t_vars *vars)
 			ft_execute(a, vars->path_cmd);
 		}
 		i++;
+		// for (int j = 0; j < count; j++)
+		// {
+		// 	close(fd[j][0]);
+		// 	close(fd[j][1]);
+		// }
 		a = a->next;
 	}
-	wait(NULL);
+	while (wait(NULL) != -1);
 }
