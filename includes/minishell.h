@@ -26,7 +26,7 @@
 # include "../libft/libft.h"
 # include "../libft/libft.h"
 
-# define PROMPT "minishell$ "
+# define PROMPT "minishell->"
 
 enum e_type
 {

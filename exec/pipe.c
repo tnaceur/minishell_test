@@ -16,56 +16,101 @@ char	*get_path(char **path, char *cmd)
 	return (path[i]);
 }
 
-void ft_execute(t_vars *vars)
+void ft_execute(t_cmd *a, char **path)
 {
 	char	*cmd_path;
-	t_cmd	*a;
-	a = vars->cmds;
-	while (a)
+
+	if (access(a->cmd[0], F_OK) == 0)
 	{
-		int id = fork();
-		if (id == 0)
+		if (execve(a->cmd[0], a->cmd, NULL))
 		{
-			if (access(a->cmd[0], F_OK) == 0)
-			{
-				if (execve(a->cmd[0], a->cmd, NULL))
-				{
-				 	perror("minishell");
-					exit(1);
-				}
-			}
-			cmd_path = get_path(vars->path_cmd, a->cmd[0]);
-			if (execve(cmd_path, a->cmd, NULL))
-			{
-				perror("minishell");
-				exit(1);
-			}
+			perror("minishell");
+			exit(1);
 		}
-		wait(NULL);
-		a = a ->next;
+	}
+	cmd_path = get_path(path, a->cmd[0]);
+	if (execve(cmd_path, a->cmd, NULL))
+	{
+		perror("minishell");
+		exit(1);
 	}
 }
 
 void	exec_cmd(t_vars *vars)
 {
-	ft_execute(vars);
+	int	id;
+
+	id = fork();
+	if (id == 0)
+		ft_execute(vars->cmds, vars->path_cmd);
+	wait(NULL);
+}
+
+
+int	lst_size(t_cmd *cmd)
+{
+	t_cmd	*tmp;
+	int		i;
+
+	tmp = cmd;
+	i = 0;
+	while (tmp)
+	{
+		tmp  = tmp->next;
+		i++;
+	}
+	return (i);
 }
 
 void	exec_pipe(t_vars *vars)
 {
 	int		count;
-	t_list	*tmp;
+	int		*fd[2];
+	int		i;
+	int		start;
+	int		end;
 
-	count = 0;
-	tmp = vars->tokens;
-	while (tmp)
+	start = 0;
+	end = 0;
+	count = lst_size(vars->cmds) - 1;
+	*fd = malloc((count) * sizeof(int*)); 
+	i = 0;
+	t_cmd *a = vars->cmds;
+	i = 0;
+	while (a)
 	{
-		if (tmp->content[0] == '|')
-			count++ ;
-		tmp = tmp->next;
+		if (i < count)
+		{
+			pipe(fd[i]);
+			end++;
+			if (i && !(i % 2))
+			{
+				close(fd[start][0]);
+				close(fd[start][1]);
+				start++;
+			}
+		}
+		if (fork() == 0)
+		{
+			if (!i)
+				dup2(fd[0][1], 1);
+			else if (i == count)
+				dup2(fd[i - 1][0], 0);
+			else
+			{
+				dup2(fd[i - 1][0], 0);
+				dup2(fd[i + 1][1], 1);
+			}
+			while (start < end)
+			{
+				close(fd[start][0]);
+				close(fd[start][1]);
+				start++;
+			}
+			ft_execute(a, vars->path_cmd);
+		}
+		i++;
+		a = a->next;
 	}
-	// while (count--)
-	// {
-		ft_execute(vars);
-	// }
+	wait(NULL);
 }
