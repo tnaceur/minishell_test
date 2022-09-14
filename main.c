@@ -40,6 +40,18 @@ static int ft_loop_cmd(t_vars *vars)
     return (1);
 }
 
+void handleSignal(int key)
+{
+	(void)key;
+	if (g_glob.is_child)
+	{
+		printf("\n");
+		return ;
+	}
+	printf(PROMPT);
+	return ;
+}
+
 int	main(int argc, char *argv[], char *envp[])
 {
     t_vars	vars;
@@ -50,8 +62,10 @@ int	main(int argc, char *argv[], char *envp[])
         return (EXIT_FAILURE);
     vars.sa.sa_handler = signals_handler;
     vars.sa.sa_flags = 0;
+    g_glob.is_child = 0;
     sigaction(SIGINT, &vars.sa, NULL);
-    signal(SIGQUIT, SIG_IGN);
+    // signal(SIGINT, handleSignal);
+	signal(SIGQUIT, SIG_IGN);
 	vars.cmdline = ft_strdup("");
     while (ft_loop_cmd(&vars))
     {

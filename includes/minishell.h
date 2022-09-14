@@ -26,7 +26,7 @@
 # include "../libft/libft.h"
 # include "../libft/libft.h"
 
-# define PROMPT "minishell->"
+# define PROMPT "minishell-> "
 
 enum e_type
 {
@@ -64,6 +64,7 @@ typedef struct s_vars
 	t_list				*tokens;
 	t_cmd				*cmds;
 	struct sigaction	sa;
+	
 }	t_vars;
 
 typedef struct s_syntax 
@@ -76,6 +77,7 @@ typedef struct s_glob
 	pid_t				pid;
 	int					heredoc;
 	int					exit_status;
+	int					is_child;
 }	t_glob;
 
 t_glob	g_glob;

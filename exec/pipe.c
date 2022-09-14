@@ -22,18 +22,19 @@ void ft_execute(t_cmd *a, char **path)
 
 	if (access(a->cmd[0], F_OK) == 0)
 	{
-		if (execve(a->cmd[0], a->cmd, NULL) == -1)
+		if (execve(a->cmd[0], a->cmd, NULL))
 		{
 			perror("minishell");
 			exit(1);
 		}
 	}
 	cmd_path = get_path(path, a->cmd[0]);
-	if (execve(cmd_path, a->cmd, NULL) == -1)
+	if (execve(cmd_path, a->cmd, NULL))
 	{
 		perror("minishell");
 		exit(1);
 	}
+	exit(0);
 }
 
 void	exec_cmd(t_vars *vars)
@@ -90,6 +91,7 @@ void	exec_pipe(t_vars *vars)
 				start++;
 			}
 		}
+		g_glob.is_child = 1;
 		if (fork() == 0)
 		{
 			if (!i)
@@ -99,7 +101,7 @@ void	exec_pipe(t_vars *vars)
 			else
 			{
 				dup2(fd[i - 1][0], 0);
-				dup2(fd[i + 1][1], 1);
+				dup2(fd[i][1], 1);
 			}
 			while (start < end)
 			{
@@ -110,12 +112,14 @@ void	exec_pipe(t_vars *vars)
 			ft_execute(a, vars->path_cmd);
 		}
 		i++;
-		// for (int j = 0; j < count; j++)
-		// {
-		// 	close(fd[j][0]);
-		// 	close(fd[j][1]);
-		// }
 		a = a->next;
 	}
+	while(start < end)
+	{
+		close(fd[start][0]);
+		close(fd[start][1]);
+		start++;
+	}
 	while (wait(NULL) != -1);
+	g_glob.is_child = 0;
 }
