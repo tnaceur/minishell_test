@@ -78,6 +78,7 @@ typedef struct s_glob
 	int					heredoc;
 	int					exit_status;
 	int					is_child;
+	char				**env;
 }	t_glob;
 
 t_glob	g_glob;
@@ -106,5 +107,6 @@ int		builtin_exit(char **cmd);
 int		builtin_env(char **envp);
 int		builtin_echo(char **cmd);
 void	exec_cd(char **path);
+int		is_builtin(t_cmd *vars);
 
 # endif

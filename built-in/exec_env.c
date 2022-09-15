@@ -17,6 +17,12 @@ int	builtin_env(char **envp)
 	int	i;
 
 	i = 0;
+	if (envp[1])
+	{
+		printf("env: %s: permission denied\n", envp[1]);
+		return 0;
+	}
+	envp = g_glob.env;
 	while (envp[i])
 	{
 		if (ft_strchr(envp[i], '='))

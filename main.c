@@ -82,9 +82,8 @@ int	main(int argc, char *argv[], char *envp[])
 		//     printf("token : %s  type : %d\n", tmp->content, tmp->type);
 		// 	tmp = tmp->next;
 		// }
-        ;
+		;
     }
-    printf("%s\n", vars.cmdline);
     ft_free_program(&vars);
     ft_putendl_fd("exit", STDOUT_FILENO);
 	return (g_glob.exit_status);

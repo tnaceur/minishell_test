@@ -41,6 +41,8 @@ void	exec_cmd(t_vars *vars)
 {
 	int	id;
 
+	if (is_builtin(vars->cmds))
+		return ;
 	id = fork();
 	if (id == 0)
 		ft_execute(vars->cmds, vars->path_cmd);
@@ -109,6 +111,8 @@ void	exec_pipe(t_vars *vars)
 				close(fd[start][1]);
 				start++;
 			}
+			if (is_builtin(a))
+				exit(0);
 			ft_execute(a, vars->path_cmd);
 		}
 		i++;

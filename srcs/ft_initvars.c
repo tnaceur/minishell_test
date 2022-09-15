@@ -22,6 +22,7 @@ int	ft_init_vars(t_vars *vars, char *envp[])
 	vars->tokens = NULL;
 	vars->cmds = NULL;
 	vars->envp = ft_arrdup(envp);
+	g_glob.env = vars->envp;
 	while (vars->envp[i])
 	{
 		if (vars->envp[i][0] == 'P')

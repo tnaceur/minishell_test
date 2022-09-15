@@ -15,10 +15,10 @@ SRCS			=	srcs/ft_initvars.c\
 					srcs/ft_verify_syntax.c\
 					exec/pipe.c\
 					exec/exec.c\
-					built-in/exec_echo.c\
 					built-in/exec_exit.c\
-					built-in/exec_cd.c\
+					built-in/exec_echo.c\
 					built-in/exec_env.c\
+					built-in/exec_cd.c\
 					
 
 OBJS			=	$(SRCS:.c=.o)\
@@ -38,7 +38,7 @@ RM				=	rm -f
 				$(CC) $(CFLAGS) -I$(shell brew --prefix readline)/include -c $< -o $@ 
 
 $(NAME):		$(HEADER) $(LIB) $(OBJS)
-				$(CC) $(CFLAGS) $(OBJS) $(LIB) -o $(NAME) -lreadline -L /opt/homebrew/opt/readline/lib/  -I /opt/homebrew/opt/readline/include/
+				$(CC) $(CFLAGS) $(OBJS) $(LIB) -o $(NAME) -lreadline -L /Users/${USER}/.brew/opt/readline/lib/  -I /Users/${USER}/.brew/opt/readline/include/
 
 all:			$(NAME)
 
