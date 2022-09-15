@@ -19,6 +19,7 @@ SRCS			=	srcs/ft_initvars.c\
 					built-in/exec_echo.c\
 					built-in/exec_env.c\
 					built-in/exec_cd.c\
+					built-in/exec_pwd.c\
 					
 
 OBJS			=	$(SRCS:.c=.o)\

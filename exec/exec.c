@@ -22,6 +22,11 @@ int	is_builtin(t_cmd *vars)
 		exec_cd(vars->cmd + 1);
 		return (1);
 	}
+	else if (!ft_strcmp(vars->cmd[0], "pwd"))
+	{
+		builtin_pwd();
+		return (1);
+	}
 	return (0);
 }
 

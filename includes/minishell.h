@@ -6,7 +6,7 @@
 /*   By: yel-moum <yel-moum@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 22:51:39 by sergio            #+#    #+#             */
-/*   Updated: 2022/09/12 23:44:52 by yel-moum         ###   ########.fr       */
+/*   Updated: 2022/09/15 16:14:27 by yel-moum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include "../libft/libft.h"
 # include "../libft/libft.h"
 
-# define PROMPT "minishell-> "
+# define PROMPT "minishell$ "
 
 enum e_type
 {
@@ -107,6 +107,7 @@ int		builtin_exit(char **cmd);
 int		builtin_env(char **envp);
 int		builtin_echo(char **cmd);
 void	exec_cd(char **path);
+int		builtin_pwd(void);
 int		is_builtin(t_cmd *vars);
 
 # endif

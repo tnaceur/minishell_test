@@ -11,5 +11,5 @@ void	exec_cd(char **path)
 	if (chdir(path[0]) == -1)
 		perror(NULL);
 	getcwd(cwd, sizeof(cwd));
-	printf("%s\n", cwd);
+	// printf("%s\n", cwd);
 }
