@@ -64,6 +64,7 @@ typedef struct s_vars
 	t_list				*tokens;
 	t_cmd				*cmds;
 	struct sigaction	sa;
+	struct sigaction	sb;
 	
 }	t_vars;
 
@@ -84,6 +85,7 @@ typedef struct s_glob
 t_glob	g_glob;
 
 void	signals_handler(int sign);
+void	signal_1(int sign);
 int		ft_init_vars(t_vars *vars, char *envp[]);
 void	*ft_free(void *ptr);
 void	ft_lstclear(t_list **lst);

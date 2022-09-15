@@ -45,7 +45,11 @@ void	exec_cmd(t_vars *vars)
 		return ;
 	id = fork();
 	if (id == 0)
+	{
+		signal(SIGQUIT, SIG_DFL);
+		signal(SIGINT, SIG_DFL);
 		ft_execute(vars->cmds, vars->path_cmd);
+	}
 	wait(NULL);
 }
 
@@ -96,6 +100,8 @@ void	exec_pipe(t_vars *vars)
 		g_glob.is_child = 1;
 		if (fork() == 0)
 		{
+			signal(SIGQUIT, SIG_DFL);
+			signal(SIGINT, SIG_DFL);
 			if (!i)
 				dup2(fd[0][1], 1);
 			else if (i == count)

@@ -16,8 +16,10 @@ static int ft_loop_cmd(t_vars *vars)
 {
     ft_lstclear(&vars->tokens);
     ft_cmd_lstclear(&vars->cmds);
-   	vars->cmdline = ft_free(vars->cmdline); 
+   	vars->cmdline = ft_free(vars->cmdline);
+	signal(SIGINT, signals_handler);
     vars->cmdline = readline(PROMPT);
+	signal(SIGINT, signal_1);
     if (!vars->cmdline)
 		return (0);
     if (vars->cmdline[0] && (!vars->last_cmdline || (vars->last_cmdline
@@ -60,10 +62,11 @@ int	main(int argc, char *argv[], char *envp[])
 	(void)argv;
     if (!ft_init_vars(&vars, envp))
         return (EXIT_FAILURE);
-    vars.sa.sa_handler = signals_handler;
+    // vars.sa.sa_handler = signals_handler;
     vars.sa.sa_flags = 0;
     g_glob.is_child = 0;
-    sigaction(SIGINT, &vars.sa, NULL);
+	// vars.sb.sa_handler = signal_1;
+    // sigaction(SIGINT, &vars.sa, NULL);
     // signal(SIGINT, handleSignal);
 	signal(SIGQUIT, SIG_IGN);
 	vars.cmdline = ft_strdup("");
