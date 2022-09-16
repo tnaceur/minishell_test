@@ -53,7 +53,6 @@ void	exec_cmd(t_vars *vars)
 	wait(NULL);
 }
 
-
 int	lst_size(t_cmd *cmd)
 {
 	t_cmd	*tmp;

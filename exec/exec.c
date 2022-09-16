@@ -19,7 +19,7 @@ int	is_builtin(t_cmd *vars)
 	}
 	else if (!ft_strcmp(vars->cmd[0], "cd"))
 	{
-		exec_cd(vars->cmd + 1);
+		exec_cd(vars->cmd);
 		return (1);
 	}
 	else if (!ft_strcmp(vars->cmd[0], "pwd"))
