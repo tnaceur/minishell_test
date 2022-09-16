@@ -65,9 +65,6 @@ int	main(int argc, char *argv[], char *envp[])
     // vars.sa.sa_handler = signals_handler;
     vars.sa.sa_flags = 0;
     g_glob.is_child = 0;
-	// vars.sb.sa_handler = signal_1;
-    // sigaction(SIGINT, &vars.sa, NULL);
-    // signal(SIGINT, handleSignal);
 	signal(SIGQUIT, SIG_IGN);
 	vars.cmdline = ft_strdup("");
     while (ft_loop_cmd(&vars))
