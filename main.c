@@ -33,7 +33,7 @@ static int ft_loop_cmd(t_vars *vars)
 		return (1);
     if (!ft_verify_syntax(vars))
 	{
-		ft_putendl_fd("minishell$ syntax error.", STDERR_FILENO);
+		ft_putendl_fd("MINISHELL$ syntax error.", STDERR_FILENO);
 		return (1);
 	}
     if (!ft_parse_cmds(vars))
@@ -62,7 +62,7 @@ int	main(int argc, char *argv[], char *envp[])
 	(void)argv;
     if (!ft_init_vars(&vars, envp))
         return (EXIT_FAILURE);
-    // vars.sa.sa_handler = signals_handler;
+    vars.sa.sa_handler = signals_handler;
     vars.sa.sa_flags = 0;
     g_glob.is_child = 0;
 	signal(SIGQUIT, SIG_IGN);

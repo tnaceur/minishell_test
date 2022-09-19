@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-moum <yel-moum@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tnaceur <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/09 16:58:48 by tnaceur           #+#    #+#             */
-/*   Updated: 2022/09/13 00:10:20 by yel-moum         ###   ########.fr       */
+/*   Created: 2022/09/18 18:35:08 by tnaceur           #+#    #+#             */
+/*   Updated: 2022/09/18 18:35:12 by tnaceur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,23 @@ static int	is_echo_newline(char *cmd)
 	return (1);
 }
 
+void	is_env_var(char *cmd)
+{
+	int	i;
+
+	i = 0;
+	while (g_glob.env[i])
+	{
+		if (!ft_strncmp(cmd, g_glob.env[i], ft_strlen(cmd))
+			&& g_glob.env[i][ft_strlen(cmd)] == '=')
+		{
+			printf("%s", g_glob.env[i] + ft_strlen(cmd) + 1);
+			return ;
+		}
+		i++;
+	}
+}
+
 int	builtin_echo(char **cmd)
 {
 	int	newline;
@@ -42,7 +59,10 @@ int	builtin_echo(char **cmd)
 	}
 	while (cmd[i])
 	{
-		printf ("%s", cmd[i]);
+		if (cmd[i][0] == '$' && cmd[i][1])
+			is_env_var(cmd[i] + 1);
+		else
+			printf ("%s", cmd[i]);
 		if (cmd[i + 1])
 			printf (" ");
 		i++;

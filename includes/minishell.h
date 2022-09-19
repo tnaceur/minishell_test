@@ -6,7 +6,7 @@
 /*   By: yel-moum <yel-moum@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 22:51:39 by sergio            #+#    #+#             */
-/*   Updated: 2022/09/15 16:14:27 by yel-moum         ###   ########.fr       */
+/*   Updated: 2022/09/17 15:17:46 by yel-moum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include "../libft/libft.h"
 # include "../libft/libft.h"
 
-# define PROMPT "minishell$ "
+# define PROMPT "MINISHELL$ "
 
 enum e_type
 {
@@ -102,6 +102,8 @@ char	*ft_getenv(char *var, char **envp);
 int		ft_tokenization(t_vars *vars);
 int		ft_parse_cmds(t_vars *vars);
 int		ft_verify_syntax(t_vars *vars);
+char	*ft_remove_quotes(char *s);
+char	**ft_split_args(char const *s);
 void	exec_pipe(t_vars *vars);
 void	exec(t_vars *vars);
 void	exec_cmd(t_vars *vars);
@@ -111,5 +113,6 @@ int		builtin_echo(char **cmd);
 void	exec_cd(char **path);
 int		builtin_pwd(void);
 int		is_builtin(t_cmd *vars);
+int		builtin_unset(char **cmd, char ***envp);
 
 # endif

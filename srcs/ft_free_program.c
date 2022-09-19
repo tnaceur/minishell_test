@@ -16,7 +16,8 @@ void	ft_free_program(t_vars *vars)
 {
 	vars->cmdline = ft_free(vars->cmdline);
 	vars->last_cmdline = ft_free(vars->last_cmdline);
-	vars->envp = ft_free_2d(vars->envp);
+	// vars->envp = ft_free_2d(vars->envp);
+	g_glob.env = ft_free_2d(g_glob.env);
     ft_lstclear(&vars->tokens);
     ft_cmd_lstclear(&vars->cmds);
 }

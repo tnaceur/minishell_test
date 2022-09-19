@@ -6,12 +6,12 @@ void	exec_cd(char **path)
 
 	if (!path[1] || (path[1][0] == '~' && !path[1][1]))
 	{
-		chdir("/Users/tahanaceur");
+		chdir("/Users/yel-moum");
 		return ;
 	}
 	if (path[1][0] == '~')
 	{
-		new_path = ft_strdup("/Users/tnaceur");
+		new_path = ft_strdup("/Users/yel-moum");
 		int i = 2;
 		new_path = ft_strjoin(new_path, path[1] + 1);
 		if (path[i]){

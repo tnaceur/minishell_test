@@ -48,7 +48,9 @@ SRCS =	ft_atoi.c\
 		ft_arrdup.c\
 		ft_add_str_to_array.c\
 		ft_strcmp.c\
-		ft_substr.c
+		ft_substr.c\
+		ft_replace_arr.c\
+
 B_SRCS =	ft_lstadd_front.c\
 
 OBJS = $(SRCS:.c=.o)

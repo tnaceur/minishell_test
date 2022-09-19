@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yel-moum <yel-moum@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 09:39:28 by tnaceur           #+#    #+#             */
-/*   Updated: 2022/06/27 11:29:29 by sergio           ###   ########.fr       */
+/*   Updated: 2022/09/16 19:24:19 by yel-moum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char	*ft_itoa(int n);
 char	*ft_getenv(char *var, char **envp);
 char	**ft_arrdup(char **array);
 char	**ft_add_str_to_array(char **array, char *str);
+char	**ft_replace_arr(char **arr1, char **arr2, unsigned int start, unsigned int size);
 
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));

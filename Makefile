@@ -13,6 +13,8 @@ SRCS			=	srcs/ft_initvars.c\
 					srcs/ft_parse_cmds.c\
 					srcs/ft_tokenization.c\
 					srcs/ft_verify_syntax.c\
+					srcs/ft_split_args.c\
+					srcs/ft_remove_quotes.c\
 					exec/pipe.c\
 					exec/exec.c\
 					built-in/exec_echo.c\
@@ -20,6 +22,7 @@ SRCS			=	srcs/ft_initvars.c\
 					built-in/exec_cd.c\
 					built-in/exec_env.c\
 					built-in/exec_pwd.c\
+					built-in/exec_unset.c\
 					
 
 OBJS			=	$(SRCS:.c=.o)\

@@ -1,5 +1,43 @@
 # include "../includes/minishell.h"
 
+static int	split_args(t_cmd **cmd, int *index)
+{
+	char	**split;
+	size_t	i;
+
+	split = ft_split_args((*cmd)->cmd[*index]);
+	if (!split)
+		return (0);
+	(*cmd)->cmd = ft_replace_arr((*cmd)->cmd, split, *index, 1);
+	if (!(*cmd)->cmd)
+		return (ft_free_2d(split), 0);
+	i = 0;
+	while (i < ft_arrlen(split))
+	{
+		(*cmd)->cmd[*index] = ft_remove_quotes((*cmd)->cmd[*index]);
+		i ++;
+		*index += 1;
+	}
+	*index -= 1;
+	split = ft_free_2d(split);
+	return (1);
+}
+
+static void	expand_args(t_cmd **cmd)
+{
+	t_cmd	*t_cmd;
+	int		i;
+
+	t_cmd = *cmd;
+	i = 0;
+	while (t_cmd->cmd[i])
+	{
+		if (!split_args(&t_cmd, &i))
+			return ;
+		i ++;
+	}
+}
+
 char	*get_path(char **path, char *cmd)
 {
 	int	i;
@@ -13,7 +51,18 @@ char	*get_path(char **path, char *cmd)
 			return (path[i]);
 		i++;
 	}
-	return (path[i]);
+	return (NULL);
+}
+
+void	error_msg(int n, char *cmd)
+{
+	if (n == 1)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": command not found\n", 2);
+	}
+	exit(1);
 }
 
 void ft_execute(t_cmd *a, char **path)
@@ -22,13 +71,15 @@ void ft_execute(t_cmd *a, char **path)
 
 	if (access(a->cmd[0], F_OK) == 0)
 	{
-		if (execve(a->cmd[0], a->cmd, NULL))
+		if (execve(a->cmd[0], a->cmd, g_glob.env))
 		{
 			perror("minishell");
 			exit(1);
 		}
 	}
 	cmd_path = get_path(path, a->cmd[0]);
+	if (!cmd_path)
+		error_msg(1, a->cmd[0]);
 	if (execve(cmd_path, a->cmd, NULL))
 	{
 		perror("minishell");
@@ -41,6 +92,7 @@ void	exec_cmd(t_vars *vars)
 {
 	int	id;
 
+	expand_args(&vars->cmds);
 	if (is_builtin(vars->cmds))
 		return ;
 	id = fork();

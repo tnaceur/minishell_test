@@ -70,14 +70,14 @@ int builtin_exit(char **cmd)
     exit_status = ft_atoi_exit(cmd[1]);
     if (!is_numeric(cmd[1]) || exit_status > LONG_MAX || exit_status < LONG_MIN)
 	{
-		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+		ft_putstr_fd("MINISHELL: exit: ", STDERR_FILENO);
 		ft_putstr_fd(cmd[1], STDERR_FILENO);
 		ft_putendl_fd(": numeric argument required", STDERR_FILENO);
 		exit(255);
 	}
     if (size == 3)
     {
-        ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
+        ft_putendl_fd("MINISHELL: exit: too many arguments", STDERR_FILENO);
         return (EXIT_FAILURE);
     }
     exit(exit_status);
