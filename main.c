@@ -12,6 +12,37 @@
 
 #include "includes/minishell.h"
 
+void	exec_herdoc(t_vars *vars)
+{
+	t_list	*tmp;
+	// int		fd;
+	char	*concatinate;
+	char	*herdoc;
+
+	tmp = vars->tokens;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->content, "<<") && tmp->next)
+		{
+			tmp = tmp->next;
+			concatinate = readline(">");
+			if (!concatinate)
+				return ;
+			while (ft_strcmp(concatinate, tmp->content))
+			{
+				herdoc = ft_strjoin(herdoc, concatinate);
+				herdoc = ft_strjoin(herdoc, "\n");
+				concatinate = readline(">"); 
+				if (concatinate == NULL)
+					return ;
+			}
+			free(concatinate);
+		}
+		tmp = tmp->next;
+	}
+	// printf("%s", herdoc);
+}
+
 static int ft_loop_cmd(t_vars *vars)
 {
     ft_lstclear(&vars->tokens);
@@ -38,6 +69,7 @@ static int ft_loop_cmd(t_vars *vars)
 	}
     if (!ft_parse_cmds(vars))
 		return (1);
+	exec_herdoc(vars);
     exec(vars);
     return (1);
 }
@@ -76,6 +108,7 @@ int	main(int argc, char *argv[], char *envp[])
 		// 		printf("cmd : %s\n", vars.cmds->cmd[i++]);
 		// 	vars.cmds = vars.cmds->next;
 		// }
+		// printf("%s\n", vars.cmdline);
         // t_list  *tmp = vars.tokens;
 		// while (tmp)
 		// {
