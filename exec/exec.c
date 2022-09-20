@@ -37,8 +37,8 @@ int	is_builtin(t_cmd *vars)
 
 void	exec(t_vars *vars)
 {
-	if (!vars->cmds->next)
+	if (vars->cmds->cmd[0] && !vars->cmds->next)
 		exec_cmd(vars);
-	else
+	else if (vars->cmds->cmd[0] && vars->cmds->next->cmd[0])
 		exec_pipe(vars);
 }

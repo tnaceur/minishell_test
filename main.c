@@ -40,7 +40,6 @@ void	exec_herdoc(t_vars *vars)
 		}
 		tmp = tmp->next;
 	}
-	// printf("%s", herdoc);
 }
 
 static int ft_loop_cmd(t_vars *vars)
@@ -69,6 +68,7 @@ static int ft_loop_cmd(t_vars *vars)
 	}
     if (!ft_parse_cmds(vars))
 		return (1);
+	continue_parse(vars);
 	exec_herdoc(vars);
     exec(vars);
     return (1);
