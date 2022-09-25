@@ -40,7 +40,7 @@ int	is_env_var(char *cmd)
 			return (i);
 		i++;
 	}
-	return (0);
+	return (-1);
 }
 
 int	builtin_echo(char **cmd)
@@ -57,10 +57,10 @@ int	builtin_echo(char **cmd)
 	}
 	while (cmd[i])
 	{
-		if (cmd[i][0] == '$' && cmd[i][1] && is_env_var(cmd[i] + 1))
+		if (cmd[i][0] == '$' && cmd[i][1] && is_env_var(cmd[i] + 1) != -1)
 			printf("%s",
 				g_glob.env[is_env_var(cmd[i] + 1)] + ft_strlen(cmd[i]));
-		else
+		else if ((cmd[i][0] == '$' && !cmd[i][1]) || cmd[i][0] != '$')
 			printf ("%s", cmd[i]);
 		if (cmd[i + 1])
 			printf (" ");

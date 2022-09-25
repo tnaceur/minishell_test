@@ -43,6 +43,8 @@ char	*get_path(char **path, char *cmd)
 	int	i;
 
 	i = 0;
+	if (!path)
+		error_msg(2, cmd);
 	while (path[i])
 	{
 		path[i] = ft_strjoin(path[i], "/");
@@ -62,6 +64,12 @@ void	error_msg(int n, char *cmd)
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd(": command not found\n", 2);
 	}
+	if (n == 2)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+	}
 	exit(1);
 }
 
@@ -71,7 +79,7 @@ void ft_execute(t_cmd *a, char **path)
 
 	if (access(a->cmd[0], F_OK) == 0)
 	{
-		if (execve(a->cmd[0], a->cmd, g_glob.env))
+		if (execve(a->cmd[0], a->cmd, NULL))
 		{
 			perror("minishell");
 			exit(1);
@@ -88,6 +96,21 @@ void ft_execute(t_cmd *a, char **path)
 	exit(0);
 }
 
+void	check_path(void)
+{
+	int i;
+
+	i = 0;
+	g_glob.path_cmd = NULL;
+	while (g_glob.env[i])
+	{
+		if (!ft_strncmp(g_glob.env[i], "PATH", 4))
+			break ;
+		i++;
+	}
+	g_glob.path_cmd = ft_split(g_glob.env[i] + 5, ':');
+}
+
 void	exec_cmd(t_vars *vars)
 {
 	int	id;
@@ -98,10 +121,18 @@ void	exec_cmd(t_vars *vars)
 	id = fork();
 	if (id == 0)
 	{
+		if (vars->cmds->in)
+		{
+			dup2(vars->cmds->in, 0);
+			close(vars->cmds->in);
+		}
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
-		ft_execute(vars->cmds, vars->path_cmd);
+		check_path();
+		ft_execute(vars->cmds, g_glob.path_cmd);
 	}
+	if (vars->cmds->in)
+		close(vars->cmds->in);
 	wait(NULL);
 }
 
@@ -127,15 +158,15 @@ void	exec_pipe(t_vars *vars)
 	int		i;
 	int		start;
 	int		end;
+	t_cmd	*cmd;
 
 	start = 0;
 	end = 0;
 	count = lst_size(vars->cmds) - 1;
-	fd = malloc((count) * sizeof(int*)); 
+	fd = malloc(count * sizeof(int*));
 	i = 0;
-	t_cmd *a = vars->cmds;
-	i = 0;
-	while (a)
+	cmd = vars->cmds;
+	while (cmd)
 	{
 		if (i < count)
 		{
@@ -148,7 +179,6 @@ void	exec_pipe(t_vars *vars)
 				start++;
 			}
 		}
-		g_glob.is_child = 1;
 		if (fork() == 0)
 		{
 			signal(SIGQUIT, SIG_DFL);
@@ -168,12 +198,13 @@ void	exec_pipe(t_vars *vars)
 				close(fd[start][1]);
 				start++;
 			}
-			if (is_builtin(a))
+			if (is_builtin(cmd))
 				exit(0);
-			ft_execute(a, vars->path_cmd);
+			check_path();
+			ft_execute(cmd, g_glob.path_cmd);
 		}
 		i++;
-		a = a->next;
+		cmd = cmd->next;
 	}
 	while(start < end)
 	{
@@ -182,5 +213,4 @@ void	exec_pipe(t_vars *vars)
 		start++;
 	}
 	while (wait(NULL) != -1);
-	g_glob.is_child = 0;
 }

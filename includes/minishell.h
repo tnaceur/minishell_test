@@ -52,6 +52,8 @@ typedef struct s_cmd
 	int					type;
 	int					*subsh_lvl;
 	t_list				*redirect;
+	int					in;
+	int					out[2];
 	struct s_cmd		*next;
 }	t_cmd;
 
@@ -60,7 +62,6 @@ typedef struct s_vars
 	char				*cmdline;
 	char				*last_cmdline;
 	char				**envp;
-	char				**path_cmd;
 	t_list				*tokens;
 	t_cmd				*cmds;
 	struct sigaction	sa;
@@ -80,6 +81,7 @@ typedef struct s_glob
 	int					exit_status;
 	int					is_child;
 	char				**env;
+	char				**path_cmd;
 }	t_glob;
 
 t_glob	g_glob;
@@ -114,5 +116,7 @@ void	exec_cd(char **path);
 int		builtin_pwd(void);
 int		is_builtin(t_cmd *vars);
 int		builtin_unset(char **cmd, char ***envp);
+int		is_env_var(char *cmd);
+void	error_msg(int n, char *cmd);
 
 # endif

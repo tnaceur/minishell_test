@@ -32,9 +32,3 @@ char	*ft_strnstr(const char *str, const char *to_find, size_t len)
 	}
 	return (0);
 }
-/*int main(void)
-{
-    char str[] = "tahaabc";
-    char to_find[] = "bc";
-    printf("%s\n%s\n", ft_strnstr(str, to_find, 6), strnstr(str, to_find, 6));
-}*/

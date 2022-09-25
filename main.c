@@ -15,11 +15,13 @@
 void	exec_herdoc(t_vars *vars)
 {
 	t_list	*tmp;
-	// int		fd;
 	char	*concatinate;
 	char	*herdoc;
+	int		fd_herdoc[2];
 
 	tmp = vars->tokens;
+	herdoc = NULL;
+	concatinate = NULL;
 	while (tmp)
 	{
 		if (!ft_strcmp(tmp->content, "<<") && tmp->next)
@@ -28,18 +30,58 @@ void	exec_herdoc(t_vars *vars)
 			concatinate = readline(">");
 			if (!concatinate)
 				return ;
+			if (herdoc)
+			{
+				free(herdoc);
+				herdoc = NULL;
+			}
 			while (ft_strcmp(concatinate, tmp->content))
 			{
 				herdoc = ft_strjoin(herdoc, concatinate);
 				herdoc = ft_strjoin(herdoc, "\n");
+				free(concatinate);
 				concatinate = readline(">"); 
 				if (concatinate == NULL)
+				{
+					free(concatinate);
 					return ;
+				}
 			}
 			free(concatinate);
 		}
 		tmp = tmp->next;
 	}
+	if (herdoc)
+	{
+		pipe(fd_herdoc);
+		ft_putstr_fd(herdoc, fd_herdoc[1]);
+		vars->cmds->in = fd_herdoc[0];
+		free(herdoc);
+		close(fd_herdoc[1]);
+		return ;
+	}
+	vars->cmds->in = 0;
+}
+
+void	continue_parse(t_vars *vars)
+{
+	t_cmd	*cmd;
+	int		i;
+
+	cmd = vars->cmds;
+	i = 0;
+	while (cmd)
+	{
+		i = 0;
+		while (cmd->cmd[i])
+		{
+			if (cmd->cmd[i][0] == '$' && is_env_var(cmd->cmd[i] + 1) != -1)
+				cmd->cmd[i] = ft_strdup(g_glob.env[is_env_var(cmd->cmd[i] + 1)] + ft_strlen(cmd->cmd[i]));
+			i++;
+		}
+		cmd = cmd->next;
+	}
+
 }
 
 static int ft_loop_cmd(t_vars *vars)
@@ -71,25 +113,12 @@ static int ft_loop_cmd(t_vars *vars)
 	continue_parse(vars);
 	exec_herdoc(vars);
     exec(vars);
-    return (1);
-}
-
-void handleSignal(int key)
-{
-	(void)key;
-	if (g_glob.is_child)
-	{
-		printf("\n");
-		return ;
-	}
-	printf(PROMPT);
-	return ;
+	return (1);
 }
 
 int	main(int argc, char *argv[], char *envp[])
 {
     t_vars	vars;
-
 	(void)argc;
 	(void)argv;
     if (!ft_init_vars(&vars, envp))
@@ -98,7 +127,6 @@ int	main(int argc, char *argv[], char *envp[])
     vars.sa.sa_flags = 0;
     g_glob.is_child = 0;
 	signal(SIGQUIT, SIG_IGN);
-	vars.cmdline = ft_strdup("");
     while (ft_loop_cmd(&vars))
     {
 		// while (vars.cmds)
@@ -106,6 +134,12 @@ int	main(int argc, char *argv[], char *envp[])
 		// 	int	i = 0;
 		// 	while (vars.cmds->cmd[i])
 		// 		printf("cmd : %s\n", vars.cmds->cmd[i++]);
+		// 	if (vars.cmds->redirect)
+		// 	{
+		// 		printf("redirect : %s\n", vars.cmds->redirect->content);
+		// 		printf("redirect : %d\n", vars.cmds->redirect->type);
+		// 	}
+		// 	vars.cmds->redirect = vars.cmds->redirect->next;
 		// 	vars.cmds = vars.cmds->next;
 		// }
 		// printf("%s\n", vars.cmdline);
@@ -115,8 +149,7 @@ int	main(int argc, char *argv[], char *envp[])
 		//     printf("token : %s  type : %d\n", tmp->content, tmp->type);
 		// 	tmp = tmp->next;
 		// }
-		;
-    }
+    };
     ft_free_program(&vars);
     ft_putendl_fd("exit", STDOUT_FILENO);
 	return (g_glob.exit_status);

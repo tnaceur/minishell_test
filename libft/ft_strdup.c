@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include"libft.h"
 
-char	*ft_strdup(const char *s1)
+char	*ft_strdup(char *s1)
 {
 	char	*str;
 	size_t	i;
@@ -26,5 +26,6 @@ char	*ft_strdup(const char *s1)
 		i++;
 	}
 	str[i] = '\0';
+	// free(s1);
 	return (str);
 }
