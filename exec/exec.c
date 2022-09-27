@@ -32,6 +32,11 @@ int	is_builtin(t_cmd *vars)
 		builtin_unset(vars->cmd, &g_glob.env);
 		return (1);
 	}
+	else if (!ft_strcmp(vars->cmd[0], "export"))
+	{
+		exec_export(vars->cmd);
+		return (1);
+	}
 	return (0);
 }
 

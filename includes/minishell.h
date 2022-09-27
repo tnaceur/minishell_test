@@ -118,5 +118,6 @@ int		is_builtin(t_cmd *vars);
 int		builtin_unset(char **cmd, char ***envp);
 int		is_env_var(char *cmd);
 void	error_msg(int n, char *cmd);
+int		exec_export(char **cmd);
 
 # endif

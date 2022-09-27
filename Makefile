@@ -23,7 +23,7 @@ SRCS			=	srcs/ft_initvars.c\
 					built-in/exec_env.c\
 					built-in/exec_pwd.c\
 					built-in/exec_unset.c\
-					
+					built-in/exec_export.c\
 
 OBJS			=	$(SRCS:.c=.o)\
 					$(MAIN:.c=.o)
