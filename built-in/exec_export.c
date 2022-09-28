@@ -16,8 +16,6 @@ int	the_sort(char **env) {
 		if (env[j] && ft_strcmp(env[j], env[i]) > 0)
 		{
 			small = i;
-//			printf("%s\n", env[i]);
-			break;
 			j = i;
 			i = 0;
 		}
@@ -28,16 +26,28 @@ int	the_sort(char **env) {
 
 int	exec_export(char **cmd)
 {
-	int	i;
+	int		i;
+	int 	j;
+	char	**expor;
 
 	i = 0;
 	(void)cmd;
-	int j = 0;
-	while (g_glob.env[i])
+	expor = ft_arrdup(g_glob.env);
+	j = 0;
+	while (expor[i])
 	{
-		j = the_sort(g_glob.env);
+		j = the_sort(expor);
 		printf("declare -x %s\n", g_glob.env[j]);
+		free(expor[j]);
+		expor[j] = ft_strdup("z");
 		i++;
 	}
+	i = 0;
+	while (expor[i])
+	{
+		free(expor[i]);
+		i++;
+	}
+	free(expor);
 	return (1);
 }
