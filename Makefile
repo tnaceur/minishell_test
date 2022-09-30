@@ -34,7 +34,7 @@ LIB				=	./libft/libft.a
 
 CC				=	cc
 
-CFLAGS			=	-Wall -Wextra -Werror 
+CFLAGS			=	-Wall -Wextra -Werror #-fsanitize=address
 
 RM				=	rm -f
 
@@ -42,7 +42,7 @@ RM				=	rm -f
 				$(CC) $(CFLAGS) -I$(shell brew --prefix readline)/include -c $< -o $@ 
 
 $(NAME):		$(HEADER) $(LIB) $(OBJS)
-				$(CC) $(CFLAGS) $(OBJS) $(LIB) -o $(NAME) -lreadline -L /Users/$(USER)/.brew/opt/readline/lib/  -I /Users/$(USER)/.brew/opt/readline/include/
+				$(CC) $(CFLAGS) $(OBJS) $(LIB) -o $(NAME) -lreadline -L /opt/homebrew/opt/readline/lib/  -I /opt/homebrew/opt/readline/include/
 
 all:			$(NAME)
 

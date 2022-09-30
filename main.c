@@ -131,9 +131,13 @@ int	main(int argc, char *argv[], char *envp[])
     {
 		// while (vars.cmds)
 		// {
-		// 	int	i = 0;
-		// 	while (vars.cmds->cmd[i])
-		// 		printf("cmd : %s\n", vars.cmds->cmd[i++]);
+			// int	i = 0;
+			// t_cmd *cmd = vars.cmds;
+			// while (cmd)
+			// {
+			// 	printf("cmd : %s\n%p\n", cmd->cmd[i], cmd->cmd[i]);
+			// 	cmd = cmd->next;
+			// }
 		// 	if (vars.cmds->redirect)
 		// 	{
 		// 		printf("redirect : %s\n", vars.cmds->redirect->content);

@@ -18,12 +18,10 @@ int	the_sort(char **env)
 	int i;
 	int j;
 	int	small;
-	int big;
 	char	*tmp;
 
 	i = 0;
 	small = 0;
-	big = 0;
 	tmp = NULL;
 	j = 0;
 	while (env[i])
@@ -40,19 +38,24 @@ int	the_sort(char **env)
 			free(tmp);
 			i = 0;
 		}
-		i++ ;
-	}
-	if (ft_strcmp(env[1], env[0]) < 0)
-	{
-		tmp = malloc (ft_strlen(env[0]));
-		tmp = ft_strdup(env[0]);
-		free(env[0]);
-		env[0] = ft_strdup(env[1]);
-		free(env[1]);
-		env[1] = ft_strdup(tmp);
-		free(tmp);
+		else
+			i++ ;
 	}
 	return (small);
+}
+
+int	ft_search(char *param)
+{
+	int	i;
+
+	i = 0;
+	while (g_glob.env[i])
+	{
+		if (!ft_strcmp(param, g_glob.env[i]))
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 int	exec_export(char **cmd)
@@ -60,19 +63,27 @@ int	exec_export(char **cmd)
 	int		i;
 	char	**expor;
 
-	i = 0;
-	(void)cmd;
-	expor = ft_arrdup(g_glob.env);
-	the_sort(expor);
-	i = 0;
-	while (expor[i])
-		printf("declare -x %s\n", expor[i++]);
-	i = 0;
-	while (expor[i])
+	if (!cmd[1])
 	{
-		free(expor[i]);
-		i++;
+		i = 0;
+		expor = ft_arrdup(g_glob.env);
+		the_sort(expor);
+		i = 0;
+		while (expor[i])
+			printf("declare -x %s\n", expor[i++]);
+		ft_free_2d(expor);
+		return (1);
 	}
-	free(expor);
+	i = 1;
+	while (cmd[i])
+	{
+		if (ft_search(cmd[i]))
+			i++;
+		else
+		{
+			g_glob.env[ft_arrlen(g_glob.env) - 1] = ft_strdup(cmd[i]);
+			printf("%s\n", g_glob.env[ft_arrlen(g_glob.env) - 1]);
+		}
+	}
 	return (1);
 }

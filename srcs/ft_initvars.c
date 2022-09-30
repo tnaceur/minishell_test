@@ -14,16 +14,10 @@
 
 int	ft_init_vars(t_vars *vars, char *envp[])
 {
-	int i;
-
-	i = 0;
 	vars->cmdline = NULL;
 	vars->last_cmdline = NULL;
 	vars->tokens = NULL;
 	vars->cmds = NULL;
-	vars->envp = ft_arrdup(envp);
-	g_glob.env = vars->envp;
-    if (!vars->envp)
-		return (0);
+	g_glob.env = ft_arrdup(envp);
 	return (1);
 }

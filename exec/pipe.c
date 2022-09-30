@@ -96,7 +96,7 @@ void ft_execute(t_cmd *a, char **path)
 	exit(0);
 }
 
-void	check_path(void)
+void	check_path(char *cmd)
 {
 	int i;
 
@@ -107,6 +107,10 @@ void	check_path(void)
 		if (!ft_strncmp(g_glob.env[i], "PATH", 4))
 			break ;
 		i++;
+	}
+	if (!g_glob.env[i])
+	{
+		error_msg(2, cmd);
 	}
 	g_glob.path_cmd = ft_split(g_glob.env[i] + 5, ':');
 }
@@ -128,8 +132,9 @@ void	exec_cmd(t_vars *vars)
 		}
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
-		check_path();
+		check_path(vars->cmds->cmd[0]);
 		ft_execute(vars->cmds, g_glob.path_cmd);
+		ft_free_2d(g_glob.path_cmd);
 	}
 	if (vars->cmds->in)
 		close(vars->cmds->in);
@@ -200,7 +205,7 @@ void	exec_pipe(t_vars *vars)
 			}
 			if (is_builtin(cmd))
 				exit(0);
-			check_path();
+			check_path(cmd->cmd[0]);
 			ft_execute(cmd, g_glob.path_cmd);
 		}
 		i++;
